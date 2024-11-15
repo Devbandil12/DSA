@@ -70,6 +70,9 @@ void Insert_End(struct node *head, int data)
     ptr->link = temp;
 }
 
+// Delete the node is not only about the changing the head from the node to another node but also free the space of memory
+// which was acquired by that node for that even though after change the pointer value we should have a access of that deleted node
+// so that we can free the memory otherwise it will take space in memory
 void Delete_end(struct node *head)
 {
     struct node *ptr = (struct node *)malloc(sizeof(struct node));
@@ -78,11 +81,27 @@ void Delete_end(struct node *head)
     {
         ptr = ptr->link;
     }
+    free(ptr->link);
     ptr->link = NULL;
 }
+
+struct node *Delete_Beg(struct node *head)
+{
+    if (head == NULL)
+    {
+        cout << "linkedlist is empty";
+    }
+    struct node *temp = (struct node *)malloc(sizeof(struct node));
+    temp = head;
+
+    head = head->link;
+    free(temp); // free the memory
+    temp = NULL;
+    return head;
+}
+
 int main()
 {
-
     struct node *head = (struct node *)malloc(sizeof(struct node));
     head->data = 40;
     head->link = NULL;
@@ -105,9 +124,7 @@ int main()
     cout << endl;
     Print_node(head);
     cout << endl;
-    Delete_end(head);
-    Delete_end(head);
-    Delete_end(head);
+    head = Delete_Beg(head);
     Print_node(head);
 
     return 0;
